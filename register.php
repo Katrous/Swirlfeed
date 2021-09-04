@@ -46,10 +46,46 @@ if(isset($_POST['register_button'])){
     $date = date("Y-m-d");
 
     if($em === $em2) {
-    //    do something here
+    //    check if email is in valid format
+    if(filter_var($em, FILTER_VALIDATE_EMAIL)){
+        $em = filter_var($em, FILTER_VALIDATE_EMAIL);
+
+        // check if email already exists
+        $e_check = mysqli_query($con, "SELECT email FROM users WHERE email='$em'");
+        // Count the number of rows returned
+        $num_rows = mysqli_num_rows($e_check);
+
+        if ($num_rows > 0) {
+            echo "Email already in use";
+        }
+
+    } else{
+        echo "Invalid format";
+    }
     } else {
         echo "emails dont match ";
-        echo $lname;
+     
+    }
+
+    if(strlen($fname) > 25 || strlen($fname) < 2) {
+        echo "Your first name must be between 2 and 25 characters";
+    }
+
+    
+    if(strlen($lname) > 25 || strlen($fname) < 2) {
+        echo "Your last name must be between 2 and 25 characters";
+    }
+
+    if($password != $password2){
+        echo "Your passwords do not match";
+    } else {
+        if(preg_match('/[^A-Za-z0-9]/', $password)){
+            echo "Your password can only contain english characters or numbers";
+        }
+    }
+
+    if(strlen($password > 30 || strlen($password) < 5)) {
+        echo "Your password must be between 5 and 30 characters";
     }
 
 }
