@@ -94,6 +94,41 @@ if(isset($_POST['register_button'])){
     if(strlen($password > 30 || strlen($password) < 5)) {
          array_push($error_array, "Your password must be between 5 and 30 characters<br>");
     }
+    if(empty($error_array)) {
+        $password = md5($password); //encrpyt password before sending into db
+        //Generate username by concatenating first name and last name
+        $username = strtolower($fname . "_".$lname);
+        $check_username_query = mysqli_query($con, "SELECT username FROM users WHERE username = '$username'");
+        $i = 0;
+        // if username exists add number to username
+        while(mysqli_num_rows($check_username_query) != 0){
+            $i++; //add 1 to i
+            $username = $username . "_" . $i;
+            $check_username_query = mysqli_query($con, "SELECT username FROM users WHERE username = '$username'");
+        }
+
+        //profile picture assignment
+        $rand  = rand(1,2); //random number bettwen 1 and 2
+        if ($rand == 1 ) 
+            $profile_pic = "/assets/images/profile_pics/defaults/head_deep_blue.png";
+        
+        else if($rand == 2) 
+            $profile_pic = "/assets/images/profile_pics/defaults/head_emerald.png";
+
+        
+
+        $query = mysqli_query($con, "INSERT INTO users VALUES (NULL, '$fname', '$lname', '$username', '$em', '$password', '$date', '$profile_pic', '0', '0', 'no', ',')");
+
+        array_push($error_array, "<span style='color: #14C800;'> You're all set! Go ahead and login! </spam> <br>");
+
+        //Clear session varibales
+        $_SESSION['reg_fname'] = '';
+        $_SESSION['reg_lname'] = '';
+        $_SESSION['reg_email'] = '';
+        $_SESSION['reg_email2'] = '';
+
+        
+    }
 
 }
     
@@ -154,6 +189,12 @@ if(isset($_POST['register_button'])){
             elseif(in_array("Your password must be between 5 and 30 characters<br>", $error_array)) echo "Your password must be between 5 and 30 characters<br>";
         ?>
         <input type="submit" name="register_button" value="Register">
+        <br>
+        <?php
+         if(in_array("<span style='color: #14C800;'> You're all set! Go ahead and login! </spam> <br>", $error_array)) echo "<span style='color: #14C800;'> You're all set! Go ahead and login! </spam> <br>";
+ 
+
+        ?>
     </form>
 </body>
 </html>
