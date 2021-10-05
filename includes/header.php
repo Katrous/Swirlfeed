@@ -1,5 +1,8 @@
 <?php 
 require 'config/config.php';
+include("includes/classes/User.php");
+include("includes/classes/Post.php");
+include("includes/classes/Message.php");
 
 // $query = mysqli_query($con, "INSERT INTO test VALUES(NULL, 'testing')");
 
@@ -25,10 +28,17 @@ if (isset($_SESSION['username'])) {
     <!-- JAVASCRIPT -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="assets/js/bootstrap.js"></script>
+    <script src="assets/js/bootbox.min.js"></script>
+    <script src="assets/js/jquery.Jcrop.js"></script>
+	<script src="assets/js/jcrop_bits.js"></script>
+    <script src="assets/js/demo.js"></script>
+
     <!-- CSS -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/jquery.Jcrop.css" type="text/css" />
+
 </head>
 <body>
 
@@ -46,7 +56,7 @@ if (isset($_SESSION['username'])) {
         <a href=""><i class="fa fa-home fa-lg"></i></a>
         <a href=""><i class="fa fa-envelope fa-lg"></i></a>
         <a href=""><i class="fa fa-bell fa-lg"></i></a>
-        <a href=""><i class="fa fa-users fa-lg"></i></a>
+        <a href="requests.php"><i class="fa fa-users fa-lg"></i></a>
         <a href=""><i class="fa fa-cog fa-lg"></i></a>
         <a href="includes/handlers/logout.php"><i class="fas fa-sign-out-alt fa-lg"></i></a>
 
