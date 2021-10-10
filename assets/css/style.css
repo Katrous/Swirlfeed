@@ -30,8 +30,8 @@ a {
 
 .logo a{
 	font-family: 'Bellota-BoldItalic', sans-serif;
-	margin-left: 10px;
-	font-size: 30;
+	margin-left: 3rem;
+	font-size: 26px;
 	position: relative;
 	top: 9px;
 	text-shadow: #73B6E2 0.5px 0.5px 0px;
@@ -79,6 +79,7 @@ nav a:hover {
 	border-radius: 5px;
 	box-shadow: 2px 2px 1px #D3D3D3;
 	z-index: -1;
+	color: #555;
 }
 
 .user_details {
@@ -411,7 +412,7 @@ padding: 0 5px 5px 5px;
 
 .resultDisplay {
 	padding: 5px 5px 0 5px;
-	height: 60px;
+	height: 70px;
 	border-bottom: 1px solid #d3d3d3;
 }
 
@@ -471,4 +472,135 @@ padding: 0 5px 5px 5px;
 	position: absolute;
 	left: 9px;
 	top: -5px;
+}
+
+.resultDisplayNotification {
+	height: auto;
+	color: #1485BD;
+	padding: 7px;
+}
+
+.resultDisplayNotification img{
+	height: 51px;
+	border-radius: 5px;
+	margin: 1px 12px 0px 2px;
+	float: left;
+	
+}
+
+.timestamp_smaller {
+	font-size: 85%;
+	margin: 0;
+}
+
+.search {
+	margin: 8px 0 0 5%;
+}
+
+.search #search {
+	border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border: thin solid #e5e5e5;
+}
+
+#search_text_input {
+	border: thin solid #e5e5e5;
+	float: left;
+	height: 23px;
+	outline: 0;
+	width: 200px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.button_holder {
+	background-color: #f1f1f1;
+	border: thin solid #E5e5e5;
+	cursor: pointer;
+	float:right;
+	height: 23px;
+	width: 50px;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+.button_holder img {
+	margin-top: 1px;
+	width: 20px;
+}
+
+.search_results {
+	background-color: #fff;
+	border: 1px solid #dadada;
+	border-bottom: none;
+	border-top: none;
+	margin-top: 21px;
+}
+
+.search_results_footer {
+	padding: 5px 4px 0px 4px;
+	height:27px;
+	border:1px solid #dadada;
+	border-top: none;
+	background-color: #20AAE5;
+	text-align: center;
+}
+
+.search_results_footer a {
+	color: #fff;
+}
+
+.search_result {
+	padding: 10px;
+	height: 100px;
+}
+
+.searchPageFriendButtons {
+	float: right;
+}
+
+.searchPageFriendButtons input[type="submit"]{
+	border:none;
+	padding: 7px 12px;
+	border-radius: 5px;
+	color: #fff
+}
+
+.result_profile_pic {
+	float: left;
+	margin-right: 10px;
+}
+
+#search_hr {
+	margin-bottom: 0;
+}
+
+#small_profile_pic {
+	height: 55px;
+	margin: 1px 12px 0 2px;
+	float: left;
+}
+
+#settings_input {
+	border: 1px solid #ccc;
+	height: 20px;
+	padding: 4px 6px;
+	margin-bottom: 10px;
+	border-radius: 4px;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+.settings_submit {
+	border:none;
+	padding: 7px 12px;
+	border-radius: 5px;
+	color: #fff
+}
+
+.postedImage{
+	max-height: 300px;
+	max-width: 100%;
+	display: block;
+	margin: 5px auto;
 }

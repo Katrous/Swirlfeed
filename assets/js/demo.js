@@ -1,5 +1,16 @@
 $(document).ready(function() {
 
+	$('#search_text_input').focus(function (){
+		if(window.matchMedia( "(min-width: 800px)" ).matches){
+			// only execute if window size is above 800px;
+			$(this).animate({width: '300px'}, 400);
+		}
+	});
+	
+	$('.button_holder').on('click', function() {
+		document.search_form.submit();
+	});
+
 	//Button for profile post
 	$('#submit_profile_post').click(function(){
 		
@@ -21,6 +32,21 @@ $(document).ready(function() {
 
 });
 
+$(document).click(function(e){
+	if(e.target.class != "search_results" && e.target.id != 'search_text_input') {
+		$(".search_results").html("");
+		$('.search_results_footer').html("");
+		$('.search_results_footer').toggleClass("search_results_footer_empty");
+		$('.search_results_footer').toggleClass("search_results_footer");
+	}
+
+	if(e.target.class != "dropdown_data_window") {
+		$(".dropdown_data_window").html("");
+		$(".dropdown_data_window").css({"padding" : "0px", "height" : "0px"});
+	}
+});
+
+
 function getUsers(value, user) {
 	$.post("includes/handlers/ajax_friend_search.php", {query:value, userLoggedIn:user}, function(data) {
 		$(".results").html(data);
@@ -34,7 +60,8 @@ function getDropdownData(user, type) {
 		var pageName;
 
 		if(type == 'notification') {
-
+			pageName = "ajax_load_notification.php";
+			$("span").remove("#unread_notification");
 		}
 		else if (type == 'message') {
 			pageName = "ajax_load_messages.php";
@@ -61,4 +88,23 @@ function getDropdownData(user, type) {
 		$(".dropdown_data_window").css({"padding" : "0px", "height": "0px", "border" : "none"});
 	}
 
+}
+
+function getLiveSearchUsers(value, user){
+	//post ajax call
+	$.post("includes/handlers/ajax_search.php", {query:value, userLoggedIn: user}, function(data){
+		if($(".search_results_footer_empty")[0]) {
+			$(".search_results_footer_empty").toggleClass("search_results_footer");
+			$(".search_results_footer_empty").toggleClass("search_results_footer_empty");
+		}
+		$('.search_results').html(data);
+		$('.search_results_footer').html("<a href='search.php?q=" + value + "'> See All Results </a>");
+
+		if(data == "") {
+			$('.search_results_footer').html("");
+			$('.search_results_footer').toggleClass("search_results_footer_empty");
+			$('.search_results_footer').toggleClass("search_results_footer");
+
+		}
+	});
 }
