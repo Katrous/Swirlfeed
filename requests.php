@@ -2,8 +2,8 @@
     include("includes/header.php");
 ?>
 
-<div class="main_column column" id="main_column">
-    <h4>friend_requests</h4>
+<div class="main_column requests-page" id="main_column">
+    <h4>Friend Requests</h4>
 
     <?php 
         $query = mysqli_query($con, "SELECT * FROM friend_requests WHERE user_to='$userLoggedIn'");
@@ -15,7 +15,7 @@
                 $user_from = $row['user_from'];
                 $user_from_obj = new User($con, $user_from);
 
-                echo $user_from_obj->getFirstAndLastName() . " sent you a friend request!";
+                echo "<span class='requestName'>" . $user_from_obj->getFirstAndLastName() . " sent you a friend request! </span>";
 
                 $user_from_friend_array = $user_from_obj->getFriendArray();
 
@@ -40,7 +40,7 @@
                 }
 
                 ?>
-                <form action="requests.php" method="POST">
+                <form action="requests.php" class='request-form' method="POST">
                     <input type="submit" name="accept_request<?php echo $user_from; ?>" id="accept_button" value="Accept">
                     <input type="submit" name="ignore_request<?php echo $user_from; ?>" id="ignore_button" value="Ignore">
                 </form>

@@ -45,111 +45,87 @@
 
 ?>
    
-   <style>
-      .wrapper {
-      	margin-left: 0px;
-	      padding-left: 0px;
-      }
-   </style>
-   <div class="profile_left">
-      <img src="<?php echo './' . $user_array['profile_pic']; ?>" alt="">
-
-      <div class="profile_info">
-         <p><?php echo "Posts: " . $user_array['num_posts']; ?></p>
-         <p><?php echo "Likes: " . $user_array['num_likes']; ?></p>
-         <p><?php echo "Friends: " . $num_friends ?></p>
+  <div class="profile_top-container">
+    <div class="main_column profile-top">
+      <div class="profile-details">
+        <img class='profile-page-pic' src="<?php echo './' . $user_array['profile_pic']; ?>" alt="">
+        <p> <?php echo $user_array['first_name'] . " " . $user_array['last_name'];?></p>
       </div>
 
-
+      <div class="profile-buttons">
+  
       <form action="<?php echo $username; ?>" method='POST'>
-   <?php
-      $profile_user_obj = new User($con, $username);
-
-      if($profile_user_obj->isClosed()) {
-         header("Location: user_closed.php");
-      }
-
-      $logged_in_user_obj = new User($con, $userLoggedIn);
-
+        <?php
+        $profile_user_obj = new User($con, $username);
+   
+        if($profile_user_obj->isClosed()) {
+          header("Location: user_closed.php");
+        }
+   
+        $logged_in_user_obj = new User($con, $userLoggedIn);
+   
+        if($userLoggedIn != $username) {
+   
+          if($logged_in_user_obj->isFriend($username)) {
+              echo '<input type="submit" name="remove_friend" class="input-profile-button danger" value="Remove Friend"><br>';
+          }
+          else if ($logged_in_user_obj->didReceiveRequest($username)) {
+              echo '<input type="submit" name="respond_request" class="input-profile-button warning" value="Respond to Request"><br>';
+          }
+          else if ($logged_in_user_obj->didSendRequest($username)) {
+              echo '<input type="submit" name="" class="input-profile-button default" value="Request Sent"><br>';
+          }
+          else 
+              echo '<input type="submit" name="add_friend" class="input-profile-button success" value="Add Friend"><br>';
+   
+        }
+        ?>      
+      </form>
+   
+      <input type="submit" class="input-profile-button" data-toggle="modal" data-target="#post_form" value="Post Something">
+   
+      <?php
       if($userLoggedIn != $username) {
-
-         if($logged_in_user_obj->isFriend($username)) {
-            echo '<input type="submit" name="remove_friend" class="danger" value="Remove Friend"><br>';
-         }
-         else if ($logged_in_user_obj->didReceiveRequest($username)) {
-            echo '<input type="submit" name="respond_request" class="warning" value="Respond to Request"><br>';
-         }
-         else if ($logged_in_user_obj->didSendRequest($username)) {
-            echo '<input type="submit" name="" class="default" value="Request Sent"><br>';
-         }
-         else 
-            echo '<input type="submit" name="add_friend" class="success" value="Add Friend"><br>';
-
+        echo '<div class="profile_info_bottom">';
+        echo $logged_in_user_obj->getMutualFriends($username) . " Mutual Friends";
+        echo '</div>';
       }
-      ?>      
-</form>
-
-<input type="submit" class="deep_blue" data-toggle="modal" data-target="#post_form" value="Post Something">
-
-<?php
-if($userLoggedIn != $username) {
-   echo '<div class="profile_info_bottom">';
-   echo $logged_in_user_obj->getMutualFriends($username) . " Mutual Friends";
-   echo '</div>';
-}
-?>
-   </div>
-
-   <div class="profile_main_column column">
-
-   <ul class="nav nav-tabs" role="tablist" id="profileTabs">
-      <li role="presentation" class="active"><a href="#newsfeed_div" aria-controls="newsfeed_div" role="tab" data-toggle="tab">Newsfeed</a></li>
-      <li role="presentation"><a href="#messages_div" aria-controls="messages_div" role="tab" data-toggle="tab">Messages</a></li>
-    </ul>
-
-   <div class="tab-content">
-   <div role="tabpanel" class="tab-pane fade in active" id="newsfeed_div">
-        <div class="posts_area"></div>
-        <img id="loading" src="assets/images/icons/loading.gif">
+      ?>
       </div>
-
-
-      <div role="tabpanel" class="tab-pane fade" id="messages_div">
-        <?php  
-        
-
-          echo "<h4>You and <a href='" . $username ."'>" . $profile_user_obj->getFirstAndLastName() . "</a></h4><hr><br>";
-
-          echo "<div class='loaded_messages' id='scroll_messages'>";
-            echo $message_obj->getMessages($username);
-          echo "</div>";
-        ?>
-
-        <div class="message_post">
-          <form action="" method="POST">
-              <textarea name='message_body' id='message_textarea' placeholder='Write your message ...'></textarea>
-              <input type='submit' name='post_message' class='info' id='message_submit' value='Send'>
-          </form>
-
-        </div>
-
-        <script>
-          var div = document.getElementById("scroll_messages");
-          div.scrollTop = div.scrollHeight;
-        </script>
+  
+     
+   
+      <div class="profile_info">
+          <p><?php echo "Posts: " . $user_array['num_posts']; ?></p>
+          <p><?php echo "Likes: " . $user_array['num_likes']; ?></p>
+          <p><?php echo "Friends: " . $num_friends ?></p>
+          <?php
+      if($userLoggedIn != $username) {
+        echo '<p>Mutual Friends: '. $logged_in_user_obj->getMutualFriends($username) . '</p>';
+      }
+      ?>
       </div>
+      
+   </div> 
+    </div>
+  
+  <!-- close profile-top -->
+
+
+
+   <div class="main_column column">
+      <div role="tabpanel" class="tab-pane fade in active" id="newsfeed_div">
+          <div class="posts_area"></div>
+          <img id="loading" src="assets/images/icons/loading.gif">
+      </div>
+	</div>
 
 
     </div>
 
 
-	</div>
-
-
 
   
-
-
 <!-- Modal -->
 <div class="modal fade" id="post_form" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -180,6 +156,9 @@ if($userLoggedIn != $username) {
     </div>
   </div>
 </div>
+
+
+
 
 <script>
   var userLoggedIn = '<?php echo $userLoggedIn; ?>';
@@ -238,6 +217,6 @@ if($userLoggedIn != $username) {
   </script>
 
 
-   </div>
+
 </body>
 </html>

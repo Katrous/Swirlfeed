@@ -32,7 +32,7 @@ if($query != "") {
         }
 
         echo "<div class='resultDisplay'>
-                <a href='" . $row['username'] .  "' style='color: #1485BD'>
+                <a class='resultText' href='" . $row['username'] .  "' style='color: #1485BD'>
                     <div class='liveSearchProfilePic'>
                         <img src='./" . $row['profile_pic'] . "'>
                     </div>

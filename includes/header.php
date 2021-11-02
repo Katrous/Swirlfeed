@@ -52,7 +52,7 @@ if (isset($_SESSION['username'])) {
 		<form action="search.php" method="GET" name='search_form'>
 		<input type="text" onkeyup='getLiveSearchUsers(this.value, "<?php echo $userLoggedIn; ?>")' name='q' placeholder='Search...' autocomplete='off' id='search_text_input'>
 		<div class="button_holder">
-			<img src="assets\images\icons\magnifying_glass.png" alt="">
+		<i class="fas fa-search"></i>
 		</div>
 		</form>
 
@@ -85,22 +85,23 @@ if (isset($_SESSION['username'])) {
             echo $user['first_name'];
         ?>
     </i></a>
-        <a href=""><i class="fa fa-home fa-lg"></i></a>
-        <a href="javascript:void(0);" onclick="getDropdownData('<?php echo $userLoggedIn; ?>', 'message')">
+        <a href="index.php"><i class="fa fa-home fa-lg"></i></a>
+		<a href="messages.php"><i class="fas fa-inbox fa-lg"></i></a>
+        <a class='a-notification' href="javascript:void(0);" onclick="getDropdownData('<?php echo $userLoggedIn; ?>', 'message')">
 				<i class="fa fa-envelope fa-lg"></i>
 				<?php
 				if($num_messages > 0)
 				 echo '<span class="notification_badge" id="unread_message">' . $num_messages . '</span>';
 				?>
 			</a>
-			<a href="javascript:void(0);" onclick="getDropdownData('<?php echo $userLoggedIn; ?>', 'notification')">
+			<a class='a-notification' href="javascript:void(0);" onclick="getDropdownData('<?php echo $userLoggedIn; ?>', 'notification')">
 				<i class="fa fa-bell fa-lg"></i>
 				<?php
 				if($num_notifications > 0)
 				 echo '<span class="notification_badge" id="unread_notification">' . $num_notifications . '</span>';
 				?>
 			</a>
-        <a href="requests.php"><i class="fa fa-users fa-lg"></i>
+        <a class='a-notification'  href="requests.php"><i class="fa fa-users fa-lg"></i>
 		<?php
 				if($num_requests > 0)
 				 echo '<span class="notification_badge" id="unread_requests">' . $num_requests . '</span>';

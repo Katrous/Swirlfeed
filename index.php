@@ -4,7 +4,7 @@ include("includes/header.php");
 if(isset($_POST['post'])){
 
 	$uploadOk = 1;
-	$imageName = $_FILES['fileToUpload']['name'];
+	$imageName = $_FILES['image']['name'];
 	$errorMessage = "";
 
 	if($imageName != "") {
@@ -12,7 +12,7 @@ if(isset($_POST['post'])){
 		$imageName = $targetDir . uniqid() . basename($imageName);
 		$imageFileType = pathinfo($imageName, PATHINFO_EXTENSION);
 
-		if($_FILES['fileToUpload']['size'] > 10000000) {
+		if($_FILES['image']['size'] > 10000000) {
 			$errorMessage = "Sorry your file is too large";
 			$uploadOk = 0;
 		}
@@ -24,7 +24,7 @@ if(isset($_POST['post'])){
 
 		if($uploadOk) {
 			
-			if(move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $imageName)) {
+			if(move_uploaded_file($_FILES['image']['tmp_name'], $imageName)) {
 				//image uploaded okay
 			}
 			else {
@@ -37,7 +37,20 @@ if(isset($_POST['post'])){
 
 	if($uploadOk) {
 		$post = new Post($con, $userLoggedIn);
-		$post->submitPost($_POST['post_text'], 'none', $imageName);
+       
+
+        // Upload if post body has content
+        if($_POST['post_text'] != '') {
+            $post->submitPost($_POST['post_text'], 'none', $imageName);
+        } else {
+            // Upload if post body has no content
+            echo "<div style='text-align:center;' class='alert alert-danger'>
+           You cannot post without a text body at this time. Sorry!
+        </div>";
+
+        }
+
+      
 	}
 	else {
 		echo "<div style='text-align:center;' class='alert alert-danger'>
@@ -48,7 +61,7 @@ if(isset($_POST['post'])){
 }
     // session_destroy();
 ?>
-   <div class="user_details column">
+   <!-- <div class="user_details column">
        <a href="<?php echo $userLoggedIn?>"> <img src=".<?php echo $user['profile_pic']; ?>" alt="img test"></a>
        <div class="user_details_left_right">
         <a href="<?php echo $userLoggedIn?>">
@@ -62,13 +75,16 @@ if(isset($_POST['post'])){
         echo "Likes" . $user['num_likes'];
         ?>
        </div>
-   </div>
+   </div> -->
 
    <div class="main_column column">
         <form action="index.php" method="POST" class="post_form" enctype="multipart/form-data">
-            <input type="file" name='fileToUpload' id=fileToUpload>
+        <a href="<?php echo $userLoggedIn?>"> <img src="./<?php echo $user['profile_pic']; ?>" alt="img test" class='post_form_pic'></a>
             <textarea name="post_text" id="post_text" placeholder="Got something to say?"></textarea>
             <input type="submit" name="post" id="post_button" value="Post">
+            <label class="btn btn-primary">
+                <i class="fa fa-image iconPosition"> Upload a Photo </i> <input type="file" style="display: none;"  name="image">
+            </label>
         </form>
 
         
@@ -76,6 +92,7 @@ if(isset($_POST['post'])){
         <div class="posts_area">
 
         </div>
+        
         <img id="loading" src="assets/images/icons/loading.gif" alt="">
    </div>
 
